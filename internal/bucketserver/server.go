@@ -49,6 +49,8 @@ type Server struct {
 
 	bucketEndpoint             string
 	bucketPoolStorageClassName string
+	bucketSizeQuota            string
+	bucketFilesQuota           string
 }
 
 func (s *Server) loggerFrom(ctx context.Context, keysWithValues ...interface{}) logr.Logger {
@@ -62,6 +64,8 @@ type Options struct {
 	BucketEndpoint             string
 	BucketPoolStorageClassName string
 	BucketClassSelector        map[string]string
+	BucketSizeQuota            string
+	BucketFilesQuota           string
 }
 
 func setOptionsDefaults(o *Options) {
@@ -99,6 +103,8 @@ func New(cfg *rest.Config, bucketClassRegistry BucketClassRegistry, opts Options
 		bucketClassSelector:        opts.BucketClassSelector,
 		namespace:                  opts.Namespace,
 		bucketPoolStorageClassName: opts.BucketPoolStorageClassName,
+		bucketSizeQuota:            opts.BucketSizeQuota,
+		bucketFilesQuota:           opts.BucketFilesQuota,
 		bucketEndpoint:             opts.BucketEndpoint,
 	}, nil
 }
