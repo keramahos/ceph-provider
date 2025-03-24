@@ -6,7 +6,6 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	//"github.com/davecgh/go-spew/spew"
 
 	"github.com/ironcore-dev/controller-utils/metautils"
 	irimeta "github.com/ironcore-dev/ironcore/iri/apis/meta/v1alpha1"

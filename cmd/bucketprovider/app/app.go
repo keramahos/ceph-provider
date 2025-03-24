@@ -7,7 +7,6 @@ import (
 	"context"
 	goflag "flag"
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/ironcore-dev/ceph-provider/internal/bcr"
 	"github.com/ironcore-dev/ceph-provider/internal/bucketserver"
 	"github.com/ironcore-dev/controller-utils/configutils"
@@ -81,8 +80,6 @@ func Command() *cobra.Command {
 func Run(ctx context.Context, opts Options) error {
 	log := ctrl.LoggerFrom(ctx)
 	setupLog := log.WithName("setup")
-	spew.Dump("App ctx:")
-	spew.Dump(ctx)
 	cfg, err := configutils.GetConfig(configutils.Kubeconfig(opts.Kubeconfig))
 	if err != nil {
 		return err
@@ -129,8 +126,6 @@ func Run(ctx context.Context, opts Options) error {
 			log := log.WithName(info.FullMethod)
 			ctx = ctrl.LoggerInto(ctx, log)
 			log.V(1).Info("Request")
-			spew.Dump("App Req:")
-			spew.Dump(req)
 			resp, err = handler(ctx, req)
 			if err != nil {
 				log.Error(err, "Error handling request")

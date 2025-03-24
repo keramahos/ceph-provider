@@ -6,7 +6,6 @@ package bucketserver
 import (
 	"context"
 	"fmt"
-	//"github.com/davecgh/go-spew/spew"
 	"github.com/go-logr/logr"
 	"github.com/ironcore-dev/ceph-provider/api"
 	"github.com/ironcore-dev/ironcore/broker/common/idgen"
@@ -95,8 +94,6 @@ func New(cfg *rest.Config, bucketClassRegistry BucketClassRegistry, opts Options
 	if err != nil {
 		return nil, fmt.Errorf("error creating client: %w", err)
 	}
-	//spew.Dump("opts values:")
-	//spew.Dump(opts)
 	serv := &Server{
 		client:                     c,
 		idGen:                      opts.IDGen,
@@ -108,9 +105,6 @@ func New(cfg *rest.Config, bucketClassRegistry BucketClassRegistry, opts Options
 		bucketFilesQuota:           opts.BucketFilesQuota,
 		bucketEndpoint:             opts.BucketEndpoint,
 	}
-	//spew.Dump("server values:")
-	//spew.Dump(serv.bucketSizeQuota)
-	//spew.Dump(serv.bucketFilesQuota)
 	return serv, nil
 
 }
