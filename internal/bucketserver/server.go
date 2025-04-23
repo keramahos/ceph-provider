@@ -6,7 +6,6 @@ package bucketserver
 import (
 	"context"
 	"fmt"
-
 	"github.com/go-logr/logr"
 	"github.com/ironcore-dev/ceph-provider/api"
 	"github.com/ironcore-dev/ironcore/broker/common/idgen"
@@ -95,8 +94,7 @@ func New(cfg *rest.Config, bucketClassRegistry BucketClassRegistry, opts Options
 	if err != nil {
 		return nil, fmt.Errorf("error creating client: %w", err)
 	}
-
-	return &Server{
+	serv := &Server{
 		client:                     c,
 		idGen:                      opts.IDGen,
 		bucketClassess:             bucketClassRegistry,
@@ -106,7 +104,9 @@ func New(cfg *rest.Config, bucketClassRegistry BucketClassRegistry, opts Options
 		bucketSizeQuota:            opts.BucketSizeQuota,
 		bucketFilesQuota:           opts.BucketFilesQuota,
 		bucketEndpoint:             opts.BucketEndpoint,
-	}, nil
+	}
+	return serv, nil
+
 }
 
 func (s *Server) getManagedAndCreated(ctx context.Context, name string, obj client.Object) error {

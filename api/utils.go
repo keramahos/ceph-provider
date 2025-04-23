@@ -33,9 +33,9 @@ func GetObjectMetadata(o metav1.Object) (*irimeta.ObjectMetadata, error) {
 		Id:          o.GetName(),
 		Annotations: annotations,
 		Labels:      labels,
-		Generation:  o.GetGeneration(),
-		CreatedAt:   o.GetCreationTimestamp().UnixNano(),
-		DeletedAt:   deletedAt,
+		Generation: o.GetGeneration(),
+		CreatedAt:  o.GetCreationTimestamp().UnixNano(),
+		DeletedAt:  deletedAt,
 	}, nil
 }
 
@@ -57,6 +57,38 @@ func GetClassLabel(o metav1.Object) (string, bool) {
 	class, found := o.GetLabels()[ClassLabel]
 	return class, found
 }
+
+/////////////////////////////////////////////////////////
+
+func GetFilesQuota(m map[string]string) string {
+	value, exists := m["bucketMaxObjects"]
+	if !exists {
+		//fmt.Println("notSet")
+		return fmt.Sprintf("notSet")
+	}
+	if len(value) == 0 {
+		//fmt.Println("notSet")
+		return fmt.Sprintf("notSet")
+	}
+	return fmt.Sprint(value)
+
+}
+
+func GetSizeQuota(m map[string]string) string {
+	//	if m[bucketMaxSize] {
+	value, exists := m["bucketMaxSize"]
+	if !exists {
+		//fmt.Println("notSet")
+		return fmt.Sprintf("notSet")
+	}
+	if len(value) == 0 {
+		//fmt.Println("notSet")
+		return fmt.Sprintf("notSet")
+	}
+	return fmt.Sprint(value)
+}
+
+////////////////////////////////////////////////////////
 
 func SetLabelsAnnotation(o metav1.Object, labels map[string]string) error {
 	data, err := json.Marshal(labels)

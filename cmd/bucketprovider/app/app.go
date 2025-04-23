@@ -7,8 +7,6 @@ import (
 	"context"
 	goflag "flag"
 	"fmt"
-	"net"
-
 	"github.com/ironcore-dev/ceph-provider/internal/bcr"
 	"github.com/ironcore-dev/ceph-provider/internal/bucketserver"
 	"github.com/ironcore-dev/controller-utils/configutils"
@@ -17,6 +15,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"google.golang.org/grpc"
+	"net"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 )
@@ -81,7 +80,6 @@ func Command() *cobra.Command {
 func Run(ctx context.Context, opts Options) error {
 	log := ctrl.LoggerFrom(ctx)
 	setupLog := log.WithName("setup")
-
 	cfg, err := configutils.GetConfig(configutils.Kubeconfig(opts.Kubeconfig))
 	if err != nil {
 		return err

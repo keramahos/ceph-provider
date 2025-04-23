@@ -38,6 +38,8 @@ func (s *Server) convertBucketClaimAndAccessSecretToBucket(
 	}
 
 	class, ok := api.GetClassLabel(bucketClaim)
+	sizequota := api.GetSizeQuota(bucketClaim.Spec.AdditionalConfig)
+	filesquota := api.GetFilesQuota(bucketClaim.Spec.AdditionalConfig)
 	if !ok {
 		return nil, fmt.Errorf("failed to get bucket class")
 	}
@@ -50,7 +52,9 @@ func (s *Server) convertBucketClaimAndAccessSecretToBucket(
 	return &iriv1alpha1.Bucket{
 		Metadata: metadata,
 		Spec: &iriv1alpha1.BucketSpec{
-			Class: class,
+			Class:      class,
+			SizeQuota:  sizequota,
+			FilesQuota: filesquota,
 		},
 		Status: &iriv1alpha1.BucketStatus{
 			State:  state,
