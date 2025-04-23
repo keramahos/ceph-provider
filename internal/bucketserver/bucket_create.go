@@ -6,7 +6,7 @@ package bucketserver
 import (
 	"context"
 	"fmt"
-	
+
 	"github.com/go-logr/logr"
 	"github.com/ironcore-dev/ceph-provider/api"
 	iriv1alpha1 "github.com/ironcore-dev/ironcore/iri/apis/bucket/v1alpha1"
@@ -31,19 +31,15 @@ func (s *Server) createBucketClaimAndAccessSecretFromBucket(
 			Namespace: s.namespace,
 		},
 		Spec: objectbucketv1alpha1.ObjectBucketClaimSpec{
-			StorageClassName: s.bucketPoolStorageClassName,
+			StorageClassName:   s.bucketPoolStorageClassName,
 			GenerateBucketName: "user-prefix-2be-implemented",
-			AdditionalConfig: map[string]string{"bucketMaxObjects": bucket.Spec.FilesQuota, "bucketMaxSize": bucket.Spec.SizeQuota, "bucketOwner": "larry"},
+			AdditionalConfig:   map[string]string{"bucketMaxObjects": bucket.Spec.FilesQuota, "bucketMaxSize": bucket.Spec.SizeQuota, "bucketOwner": "larry"},
 		},
 	}
 	if err := api.SetObjectMetadata(bucketClaim, bucket.Metadata); err != nil {
 		return nil, nil, err
 	}
 	api.SetClassLabel(bucketClaim, bucket.Spec.Class)
-	////////
-	//api.SetSizeQuota(bucketClaim, bucket.Spec.SizeQuota)
-	//api.SetFilesQuota(bucketClaim, bucket.Spec.FilesQuota)
-	///////
 	api.SetBucketManagerLabel(bucketClaim, api.BucketManager)
 
 	log.V(2).Info("Creating bucket claim")
